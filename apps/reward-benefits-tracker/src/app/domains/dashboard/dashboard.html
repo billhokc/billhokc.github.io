@@ -1,0 +1,15 @@
+<div class="page-container">
+    <h1>Dashboard</h1>
+    <mat-form-field>
+        <mat-label>Credit Cards</mat-label>
+        <mat-select
+            [(ngModel)]="selectedCreditCard"
+            (selectionChange)="onCreditCardSelect($event.value)"
+            placeholder="Select a Credit Card"
+        >
+            <mat-option *ngFor="let card of creditCardOptions()" [value]="card">
+                {{ card.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

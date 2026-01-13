@@ -1,0 +1,49 @@
+.benefit-card {
+    margin-bottom: 1rem;
+}
+
+.benefit-yearly {
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.benefit-monthly {
+    padding: 1rem;
+}
+
+.benefit-input-groups {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.benefit-row {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+
+    .benefit-data {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .benefit-label {
+        flex: 1;
+    }
+
+    .benefit-amount {
+        width: 100px;
+        text-align: right;
+    }
+
+    .benefit-frequency-row {
+        display: flex;
+        gap: 0.5rem;
+    }
+}
+
+input {
+    text-align: right;
+}

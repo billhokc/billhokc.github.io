@@ -1,0 +1,136 @@
+<div [formGroup]="benefitsForm()">
+    <mat-card class="benefit-card">
+        <mat-card-header>
+            <h2>Yearly Benefits</h2>
+        </mat-card-header>
+        <mat-card-content>
+            <section class="benefit-yearly" formGroupName="yearlyBenefits">
+                @for (benefit of yearlyBenefits(); let i = $index; track benefit.id) {
+                    <div class="benefit-row">
+                        <h4>{{ benefit.provider.name }}</h4>
+                        <div class="benefit-data">
+                            <label class="benefit-label"
+                                >{{ benefit.description }} ({{
+                                    benefit.amount | currency: "USD" : "symbol" : "1.0-0"
+                                }}
+                                x {{ benefit.frequencyCount }})</label
+                            >
+                            <div class="benefit-input-groups" [formGroupName]="benefit.id">
+                                @for (
+                                    item of createArray(benefit.frequencyCount);
+                                    let i = $index;
+                                    track i
+                                ) {
+                                    <div class="benefit-frequency-row">
+                                        <mat-form-field subscriptSizing="dynamic">
+                                            <mat-label>Amount Used</mat-label>
+                                            <input
+                                                matInput
+                                                type="number"
+                                                min="0"
+                                                [max]="benefit.amount"
+                                                [formControl]="
+                                                    getYearlyAmountInputControl(benefit.id, i)!
+                                                "
+                                            />
+                                            @if (
+                                                getYearlyAmountInputControl(
+                                                    benefit.id,
+                                                    i
+                                                )?.hasError("max")
+                                            ) {
+                                                <mat-error>
+                                                    Amount cannot exceed
+                                                    {{
+                                                        benefit.amount
+                                                            | currency: "USD" : "symbol" : "1.0-0"
+                                                    }}
+                                                </mat-error>
+                                            }
+                                        </mat-form-field>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </section>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="benefit-card">
+        <mat-card-header>
+            <h2>Monthly Benefits</h2>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-tab-group [selectedIndex]="selectedMonthTab">
+                @for (month of monthTabs; let idx = $index; track month.value) {
+                    <mat-tab [label]="month.title">
+                        <section class="benefit-monthly" formArrayName="monthlyBenefits">
+                            <div [formGroupName]="idx">
+                                @for (benefit of monthlyBenefits(); track benefit.id) {
+                                    <div class="benefit-row">
+                                        <h4>{{ benefit.provider.name }}</h4>
+                                        <div class="benefit-data" [formGroupName]="benefit.id">
+                                            <mat-label class="benefit-label"
+                                                >{{ benefit.description }} ({{
+                                                    benefit.amount
+                                                        | currency: "USD" : "symbol" : "1.0-0"
+                                                }}
+                                                x {{ benefit.frequencyCount }})</mat-label
+                                            >
+                                            <div class="benefit-input-groups">
+                                                @for (
+                                                    item of createArray(benefit.frequencyCount);
+                                                    let i = $index;
+                                                    track i
+                                                ) {
+                                                    <div class="benefit-frequency-row">
+                                                        <mat-form-field subscriptSizing="dynamic">
+                                                            <mat-label>Amount Used</mat-label>
+                                                            <input
+                                                                matInput
+                                                                type="number"
+                                                                min="0"
+                                                                [max]="benefit.amount"
+                                                                [formControl]="
+                                                                    getMonthlyAmountInputControl(
+                                                                        idx,
+                                                                        benefit.id,
+                                                                        i
+                                                                    )!
+                                                                "
+                                                            />
+                                                            @if (
+                                                                getMonthlyAmountInputControl(
+                                                                    idx,
+                                                                    benefit.id,
+                                                                    i
+                                                                )?.hasError("max")
+                                                            ) {
+                                                                <mat-error>
+                                                                    Amount cannot exceed
+                                                                    {{
+                                                                        benefit.amount
+                                                                            | currency
+                                                                                : "USD"
+                                                                                : "symbol"
+                                                                                : "1.0-0"
+                                                                    }}
+                                                                </mat-error>
+                                                            }
+                                                        </mat-form-field>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </section>
+                    </mat-tab>
+                }
+            </mat-tab-group>
+        </mat-card-content>
+    </mat-card>
+</div>

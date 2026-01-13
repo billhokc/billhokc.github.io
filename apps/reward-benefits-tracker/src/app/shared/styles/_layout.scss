@@ -1,0 +1,10 @@
+@use "breakpoints" as *;
+
+.page-container {
+    padding: 1rem;
+
+    @media (min-width: $breakpoint-tablet) {
+        width: 720px;
+        margin-inline: auto;
+    }
+}
