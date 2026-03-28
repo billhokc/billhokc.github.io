@@ -4,3 +4,7 @@
 /.nx/cache
 /.nx/workspace-data
 .angular
+.vscode
+/node_modules
+**/generated
+package-lock.json

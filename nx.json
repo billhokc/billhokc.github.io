@@ -8,7 +8,8 @@
     "libsDir": "libs"
   },
   "projects": {
-    "personal-site": "apps/personal-site"
+    "personal-site": "apps/personal-site",
+    "reward-benefits-tracker": "apps/reward-benefits-tracker"
   },
   "targetDefaults": {
     "@angular-devkit/build-angular:browser": {

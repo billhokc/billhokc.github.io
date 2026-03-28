@@ -1,6 +1,8 @@
 
 # Dependencies
 node_modules/
+/package-lock.json
+/yarn.lock
 
 # Nx
 .nx/cache/
@@ -9,14 +11,22 @@ node_modules/
 
 # Angular
 .angular/cache/
+.angular/
+/.ng/
+/.angular-cli.json
 
 # Build outputs
 dist/
+/dist/
 tmp/
+/tmp/
 out-tsc/
+/out-tsc/
+/e2e/test-output/
 
 # Coverage and test reports
 coverage/
+/coverage/
 test-results/
 
 # Logs
@@ -30,6 +40,7 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+/.env
 
 # Editor and OS files
 .vscode/
@@ -42,4 +53,4 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
-.angular
+*.tsbuildinfo
