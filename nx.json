@@ -3,6 +3,13 @@
     "version": "22.6.3"
   },
   "analytics": false,
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "libs"
+  },
+  "projects": {
+    "personal-site": "apps/personal-site"
+  },
   "targetDefaults": {
     "@angular-devkit/build-angular:browser": {
       "cache": true,
@@ -20,6 +27,9 @@
     }
   },
   "plugins": [
+    {
+      "plugin": "@nx/angular/plugin"
+    },
     {
       "plugin": "@nx/eslint/plugin",
       "options": {

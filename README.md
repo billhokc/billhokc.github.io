@@ -49,7 +49,7 @@ The workflow uses the Nx build target:
 nx build personal-site --configuration=github-pages
 ```
 
-If your GitHub repository name changes, update `baseHref` in `personal-site/project.json`.
+If your GitHub repository name changes, update `baseHref` in `apps/personal-site/project.json`.
 
 ## Importing your existing project into this monorepo
 

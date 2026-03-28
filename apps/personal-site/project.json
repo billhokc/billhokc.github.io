@@ -1,9 +1,9 @@
 {
   "name": "personal-site",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "personal-site/src",
+  "sourceRoot": "apps/personal-site/src",
   "tags": [],
   "targets": {
     "build": {
@@ -11,17 +11,17 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/personal-site",
-        "index": "personal-site/src/index.html",
-        "main": "personal-site/src/main.ts",
-        "tsConfig": "personal-site/tsconfig.app.json",
+        "index": "apps/personal-site/src/index.html",
+        "main": "apps/personal-site/src/main.ts",
+        "tsConfig": "apps/personal-site/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "personal-site/public"
+            "input": "apps/personal-site/public"
           }
         ],
-        "styles": ["personal-site/src/styles.scss"]
+        "styles": ["apps/personal-site/src/styles.scss"]
       },
       "configurations": {
         "production": {
@@ -92,18 +92,18 @@
       "executor": "@angular-devkit/build-angular:karma",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "main": "personal-site/src/test.ts",
+        "main": "apps/personal-site/src/test.ts",
         "polyfills": ["zone.js", "zone.js/testing"],
-        "tsConfig": "personal-site/tsconfig.spec.json",
-        "karmaConfig": "personal-site/karma.conf.cjs",
+        "tsConfig": "apps/personal-site/tsconfig.spec.json",
+        "karmaConfig": "apps/personal-site/karma.conf.cjs",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "personal-site/public"
+            "input": "apps/personal-site/public"
           }
         ],
-        "styles": ["personal-site/src/styles.scss"]
+        "styles": ["apps/personal-site/src/styles.scss"]
       }
     },
     "serve-static": {

@@ -12,7 +12,7 @@ This repository is an Nx monorepo with Angular and Angular Material.
 
 - Main app: `personal-site`
 - Nx config: `nx.json`
-- App project config: `personal-site/project.json`
+- App project config: `apps/personal-site/project.json`
 - Deployment workflow: `.github/workflows/deploy-pages.yml`
 
 ## Required Tooling and Versions
@@ -48,18 +48,18 @@ Equivalent direct Nx commands:
   - `npx nx build personal-site --configuration=github-pages`
 - Artifact path must remain:
   - `dist/personal-site`
-- `personal-site/project.json` contains a `build.configurations.github-pages` config.
+- `apps/personal-site/project.json` contains a `build.configurations.github-pages` config.
 - `build.configurations.github-pages.baseHref` must match repository name format:
   - `/<repo-name>/`
   - Current value: `/billhokc/`
 
-If the GitHub repository name changes, update `baseHref` in `personal-site/project.json`.
+If the GitHub repository name changes, update `baseHref` in `apps/personal-site/project.json`.
 
 ## Angular Material and Animations
 
 - App uses Angular Material components.
 - `@angular/animations` is required and must stay installed.
-- App config uses `provideAnimationsAsync()` in `personal-site/src/app/app.config.ts`.
+- App config uses `provideAnimationsAsync()` in `apps/personal-site/src/app/app.config.ts`.
 
 ## Expected Validation Before Finishing Changes
 
@@ -84,4 +84,4 @@ When importing another project into this monorepo:
 
 - Do not change deployment target names without updating scripts and workflow together.
 - Do not change output path `dist/personal-site` unless workflow artifact path is updated too.
-- Do not remove `github-pages` build configuration from `personal-site/project.json`.
+- Do not remove `github-pages` build configuration from `apps/personal-site/project.json`.

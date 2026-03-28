@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "projects": {
+    "personal-site": "apps/personal-site"
+  }
+}
