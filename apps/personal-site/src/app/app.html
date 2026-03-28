@@ -1,61 +1,10 @@
 <mat-toolbar class="top-nav">
-	<span class="brand">{{ title }}</span>
+	<a class="brand" routerLink="/">{{ title }}</a>
 	<span class="spacer"></span>
-	<a mat-button href="#about">About</a>
-	<a mat-button href="#projects">Projects</a>
-	<a mat-button href="#contact">Contact</a>
+	<a mat-button routerLink="/">Home</a>
+	<a mat-button routerLink="/reward-benefits-tracker">Reward Tracker</a>
 </mat-toolbar>
 
 <main class="page-shell">
-	<section id="about" class="hero">
-		<p class="eyebrow">Personal Site</p>
-		<h1>{{ title }}</h1>
-		<p class="lead">{{ blurb }}</p>
-		<div class="hero-actions">
-			<a mat-flat-button href="#projects">View Projects</a>
-			<a mat-stroked-button href="#contact">Contact Me</a>
-		</div>
-	</section>
-
-	<mat-divider></mat-divider>
-
-	<section id="projects" class="section-block">
-		<h2>Projects</h2>
-		<p>
-			This monorepo is ready for multiple apps and libraries. Your imported project can live
-			alongside this landing page and share internal tooling.
-		</p>
-
-		<div class="project-grid">
-			@for (project of projectLinks; track project.name) {
-				<mat-card appearance="outlined" class="project-card">
-					<mat-card-header>
-						<mat-card-title>{{ project.name }}</mat-card-title>
-					</mat-card-header>
-					<mat-card-content>
-						<p>{{ project.description }}</p>
-					</mat-card-content>
-					<mat-card-actions>
-						<a mat-button [href]="project.url" target="_blank" rel="noreferrer">Open Repo</a>
-					</mat-card-actions>
-				</mat-card>
-			}
-		</div>
-	</section>
-
-	<mat-divider></mat-divider>
-
-	<section id="contact" class="section-block">
-		<h2>Contact</h2>
-		<p>Pick your preferred channel:</p>
-		<div class="contact-links">
-			<a mat-stroked-button href="mailto:you@example.com">Email</a>
-			<a mat-stroked-button href="https://github.com/YOUR_USERNAME" target="_blank" rel="noreferrer">
-				GitHub
-			</a>
-			<a mat-stroked-button href="https://www.linkedin.com/in/YOUR_PROFILE" target="_blank" rel="noreferrer">
-				LinkedIn
-			</a>
-		</div>
-	</section>
+	<router-outlet></router-outlet>
 </main>

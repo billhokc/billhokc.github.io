@@ -39,6 +39,22 @@
           ],
           "outputHashing": "all"
         },
+        "github-pages": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "700kB",
+              "maximumError": "1MB"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kB",
+              "maximumError": "8kB"
+            }
+          ],
+          "outputHashing": "all",
+          "baseHref": "/billhokc/reward-benefits-tracker/"
+        },
         "development": {
           "buildOptimizer": false,
           "optimization": false,
@@ -55,10 +71,12 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "reward-benefits-tracker:build:production"
+          "buildTarget": "reward-benefits-tracker:build:production",
+          "port": 4201
         },
         "development": {
-          "buildTarget": "reward-benefits-tracker:build:development"
+          "buildTarget": "reward-benefits-tracker:build:development",
+          "port": 4201
         }
       },
       "defaultConfiguration": "development"
