@@ -21,34 +21,32 @@
                                     let i = $index;
                                     track i
                                 ) {
-                                    <div class="benefit-frequency-row">
-                                        <mat-form-field subscriptSizing="dynamic">
-                                            <mat-label>Amount Used</mat-label>
-                                            <input
-                                                matInput
-                                                type="number"
-                                                min="0"
-                                                [max]="benefit.amount"
-                                                [formControl]="
-                                                    getYearlyAmountInputControl(benefit.id, i)!
-                                                "
-                                            />
-                                            @if (
-                                                getYearlyAmountInputControl(
-                                                    benefit.id,
-                                                    i
-                                                )?.hasError("max")
-                                            ) {
-                                                <mat-error>
-                                                    Amount cannot exceed
-                                                    {{
-                                                        benefit.amount
-                                                            | currency: "USD" : "symbol" : "1.0-0"
-                                                    }}
-                                                </mat-error>
-                                            }
-                                        </mat-form-field>
-                                    </div>
+                                    <mat-form-field subscriptSizing="dynamic">
+                                        <mat-label>Amount Used</mat-label>
+                                        <input
+                                            matInput
+                                            type="number"
+                                            min="0"
+                                            [max]="benefit.amount"
+                                            [formControl]="
+                                                getYearlyAmountInputControl(benefit.id, i)!
+                                            "
+                                        />
+                                        @if (
+                                            getYearlyAmountInputControl(
+                                                benefit.id,
+                                                i
+                                            )?.hasError("max")
+                                        ) {
+                                            <mat-error>
+                                                Amount cannot exceed
+                                                {{
+                                                    benefit.amount
+                                                        | currency: "USD" : "symbol" : "1.0-0"
+                                                }}
+                                            </mat-error>
+                                        }
+                                    </mat-form-field>
                                 }
                             </div>
                         </div>
@@ -85,42 +83,40 @@
                                                     let i = $index;
                                                     track i
                                                 ) {
-                                                    <div class="benefit-frequency-row">
-                                                        <mat-form-field subscriptSizing="dynamic">
-                                                            <mat-label>Amount Used</mat-label>
-                                                            <input
-                                                                matInput
-                                                                type="number"
-                                                                min="0"
-                                                                [max]="benefit.amount"
-                                                                [formControl]="
-                                                                    getMonthlyAmountInputControl(
-                                                                        idx,
-                                                                        benefit.id,
-                                                                        i
-                                                                    )!
-                                                                "
-                                                            />
-                                                            @if (
+                                                    <mat-form-field subscriptSizing="dynamic">
+                                                        <mat-label>Amount Used</mat-label>
+                                                        <input
+                                                            matInput
+                                                            type="number"
+                                                            min="0"
+                                                            [max]="benefit.amount"
+                                                            [formControl]="
                                                                 getMonthlyAmountInputControl(
                                                                     idx,
                                                                     benefit.id,
                                                                     i
-                                                                )?.hasError("max")
-                                                            ) {
-                                                                <mat-error>
-                                                                    Amount cannot exceed
-                                                                    {{
-                                                                        benefit.amount
-                                                                            | currency
-                                                                                : "USD"
-                                                                                : "symbol"
-                                                                                : "1.0-0"
-                                                                    }}
-                                                                </mat-error>
-                                                            }
-                                                        </mat-form-field>
-                                                    </div>
+                                                                )!
+                                                            "
+                                                        />
+                                                        @if (
+                                                            getMonthlyAmountInputControl(
+                                                                idx,
+                                                                benefit.id,
+                                                                i
+                                                            )?.hasError("max")
+                                                        ) {
+                                                            <mat-error>
+                                                                Amount cannot exceed
+                                                                {{
+                                                                    benefit.amount
+                                                                        | currency
+                                                                            : "USD"
+                                                                            : "symbol"
+                                                                            : "1.0-0"
+                                                                }}
+                                                            </mat-error>
+                                                        }
+                                                    </mat-form-field>
                                                 }
                                             </div>
                                         </div>

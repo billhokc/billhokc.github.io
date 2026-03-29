@@ -21,7 +21,10 @@
             "input": "apps/personal-site/public"
           }
         ],
-        "styles": ["apps/personal-site/src/styles.scss"]
+        "styles": ["apps/personal-site/src/app/shared/styles/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["apps/personal-site/src/app/shared/styles"]
+        }
       },
       "configurations": {
         "production": {
@@ -105,7 +108,7 @@
             "input": "apps/personal-site/public"
           }
         ],
-        "styles": ["apps/personal-site/src/styles.scss"]
+        "styles": ["apps/personal-site/src/app/shared/styles/styles.scss"]
       }
     },
     "serve-static": {
