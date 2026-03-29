@@ -21,7 +21,6 @@
             "input": "apps/reward-benefits-tracker/public"
           }
         ],
-        "styles": ["apps/reward-benefits-tracker/src/app/shared/styles/styles.scss"],
         "stylePreprocessorOptions": {
           "includePaths": ["apps/personal-site/src/app/shared/styles"]
         }
