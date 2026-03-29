@@ -1,20 +1,25 @@
-import { CurrencyPipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { GoogleAuthService } from '@billhokc/auth';
 import { of, switchMap } from 'rxjs';
 import { BenefitsApi } from './data-access/benefits-api';
 import { UserBenefitsStorage } from './data-access/user-benefits-storage';
+import { UserBenefits } from './models/user/user-benefits';
+import { AnnualFeeProgress } from './ui/annual-fee-progress/annual-fee-progress';
 import { BenefitsForm } from './ui/benefits-form/benefits-form';
 
 @Component({
     selector: 'app-credit-card-benefits',
-    imports: [BenefitsForm, CurrencyPipe],
+    imports: [BenefitsForm, AnnualFeeProgress, MatSnackBarModule],
     templateUrl: './credit-card-benefits.html',
     styleUrls: ['./credit-card-benefits.scss'],
 })
 export class CreditCardBenefits {
     private _benefitsApi = inject(BenefitsApi);
     private userBenefitsStorage = inject(UserBenefitsStorage);
+    private _authService = inject(GoogleAuthService);
+    private _snackbar = inject(MatSnackBar);
 
     protected cardId = input<string>();
 
@@ -23,8 +28,19 @@ export class CreditCardBenefits {
         return id ? +id : null;
     }
 
-    protected benefitsRedeemedYTD = toSignal(
-        this.userBenefitsStorage.getTotalBenefitsRedeemedYTD(),
+    protected readonly user = toSignal(this._authService.user$);
+    protected readonly isLoggedIn = computed(() => !!this.user());
+
+    protected readonly savedBenefits = toSignal(
+        this._authService.user$.pipe(
+            switchMap((user) => user ? this.userBenefitsStorage.getData() : of(null)),
+        ),
+        { initialValue: null },
+    );
+    protected readonly benefitsRedeemedYTD = toSignal(
+        this._authService.user$.pipe(
+            switchMap((user) => user ? this.userBenefitsStorage.getTotalBenefitsRedeemedYTD() : of(0)),
+        ),
         { initialValue: 0 },
     );
 
@@ -42,4 +58,9 @@ export class CreditCardBenefits {
         ),
         { initialValue: null },
     );
+
+    protected onSave(userBenefits: UserBenefits): void {
+        this.userBenefitsStorage.saveData(userBenefits);
+        this._snackbar.open('Saved', 'Close', { duration: 3000 });
+    }
 }

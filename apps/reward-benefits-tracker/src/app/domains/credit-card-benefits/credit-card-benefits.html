@@ -1,6 +1,13 @@
 <div class="page-container">
     <h1>{{ creditCardName() }} Benefits</h1>
-    <p>Benefits Redeemed YTD: {{ benefitsRedeemedYTD() | currency }}</p>
-    <p>Annual Fee: {{ creditCardBenefits()?.annualFee | currency }}</p>
-    <app-benefits-form [benefits]="creditCardBenefits()"> </app-benefits-form>
+    <app-annual-fee-progress
+        [annualFee]="creditCardBenefits()?.annualFee ?? 0"
+        [benefitsRedeemedYTD]="benefitsRedeemedYTD()"
+    ></app-annual-fee-progress>
+    <app-benefits-form
+        [benefits]="creditCardBenefits()"
+        [savedBenefits]="savedBenefits()"
+        [isLoggedIn]="isLoggedIn()"
+        (save)="onSave($event)"
+    ></app-benefits-form>
 </div>
