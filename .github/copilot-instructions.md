@@ -51,7 +51,7 @@ Equivalent direct Nx commands:
 - `apps/personal-site/project.json` contains a `build.configurations.github-pages` config.
 - `build.configurations.github-pages.baseHref` must match repository name format:
   - `/<repo-name>/`
-  - Current value: `/billhokc/`
+  - Current value: `/`
 
 If the GitHub repository name changes, update `baseHref` in `apps/personal-site/project.json`.
 

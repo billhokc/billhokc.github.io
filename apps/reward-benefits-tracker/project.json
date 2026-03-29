@@ -55,7 +55,7 @@
             }
           ],
           "outputHashing": "all",
-          "baseHref": "/billhokc/reward-benefits-tracker/"
+          "baseHref": "/reward-benefits-tracker/"
         },
         "development": {
           "buildOptimizer": false,
