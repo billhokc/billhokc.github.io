@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, computed, effect, inject, input, linkedSignal, output } from '@angular/core';
+import { afterNextRender, Component, computed, effect, inject, input, linkedSignal, output, signal, ViewChild } from '@angular/core';
 import {
     FormArray,
     FormBuilder,
@@ -8,10 +8,12 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { CardBenefitFrequency } from '../../models/card-benefit-frequency';
 import { CardBenefits } from '../../models/card-benefits';
@@ -28,6 +30,8 @@ import { YearlyBenefit } from '../../models/user/yearly-benefit';
         MatFormFieldModule,
         MatInputModule,
         MatCardModule,
+        MatIconModule,
+        MatButtonModule,
         ReactiveFormsModule,
         CurrencyPipe,
     ],
@@ -43,8 +47,12 @@ export class BenefitsForm {
 
     save = output<UserBenefits>();
 
+    @ViewChild(MatTabGroup) private monthTabGroup?: MatTabGroup;
+
     protected monthTabs: Tab[] = [];
     protected selectedMonthTab = 0;
+    protected yearlyCollapsed = signal(true);
+    protected monthlyCollapsed = signal(false);
     protected yearlyBenefits = computed(() => {
         return (
             this.benefits()?.benefits.filter((b) => b.frequency === CardBenefitFrequency.Yearly) ||
@@ -108,6 +116,11 @@ export class BenefitsForm {
     constructor() {
         this.monthTabs = this.buildMonthTabs();
         this.selectedMonthTab = new Date().getMonth(); // Default to current month
+
+        afterNextRender(() => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (this.monthTabGroup as any)?._tabHeader._scrollToLabel(this.selectedMonthTab);
+        });
 
         effect((onCleanup) => {
             const form = this.benefitsForm();
