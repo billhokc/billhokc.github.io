@@ -1,3 +1,4 @@
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { Route } from '@angular/router';
 import { UserBenefitsFirestore } from './domains/credit-card-benefits/data-access/user-benefits-firestore';
 import { UserBenefitsStorage } from './domains/credit-card-benefits/data-access/user-benefits-storage';
@@ -6,6 +7,8 @@ export const rewardTrackerRoutes: Route[] = [
     {
         path: '',
         providers: [
+            provideFirestore(() => getFirestore()),
+            UserBenefitsFirestore,
             { provide: UserBenefitsStorage, useExisting: UserBenefitsFirestore },
         ],
         children: [

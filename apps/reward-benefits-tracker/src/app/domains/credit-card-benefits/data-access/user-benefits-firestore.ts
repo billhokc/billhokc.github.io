@@ -9,9 +9,7 @@ import { computeTotalBenefitsRedeemedYTD, UserBenefitsStorage } from './user-ben
 // Single-user mode: store data in one shared document.
 // When auth is added later, switch docRef to users/{uid}/benefits/{year}.
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class UserBenefitsFirestore extends UserBenefitsStorage {
     private readonly currentYear = new Date().getFullYear().toString();
     private firestore = inject(Firestore, { optional: true});

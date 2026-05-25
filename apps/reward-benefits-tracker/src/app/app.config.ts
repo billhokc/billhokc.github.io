@@ -18,6 +18,7 @@ export const appConfig: ApplicationConfig = {
         provideFirebaseApp(() => initializeApp(firebaseConfig)),
         provideAuth(() => getAuth()),
         provideFirestore(() => getFirestore()),
+        UserBenefitsFirestore,
         { provide: UserBenefitsStorage, useExisting: UserBenefitsFirestore },
     ],
 };
