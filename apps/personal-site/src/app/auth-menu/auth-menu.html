@@ -1,0 +1,12 @@
+<button mat-icon-button aria-label="Account">
+    <mat-icon>account_circle</mat-icon>
+</button>
+
+<div class="panel">
+    @if (user()) {
+        <span class="display-name">{{ user()?.displayName }}</span>
+        <button mat-button (click)="logout()">Log Out</button>
+    } @else {
+        <button mat-button (click)="login()">Log In</button>
+    }
+</div>

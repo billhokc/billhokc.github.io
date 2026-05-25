@@ -1,6 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, computed, effect, inject, input, linkedSignal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, effect, inject, input, linkedSignal, output } from '@angular/core';
 import {
     FormArray,
     FormBuilder,
@@ -12,10 +11,8 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { UserBenefitsStorage } from '../../data-access/user-benefits-storage';
 import { CardBenefitFrequency } from '../../models/card-benefit-frequency';
 import { CardBenefits } from '../../models/card-benefits';
 import { Tab } from '../../models/tab';
@@ -33,19 +30,18 @@ import { YearlyBenefit } from '../../models/user/yearly-benefit';
         MatCardModule,
         ReactiveFormsModule,
         CurrencyPipe,
-        MatSnackBarModule,
     ],
     templateUrl: './benefits-form.html',
     styleUrls: ['./benefits-form.scss'],
 })
 export class BenefitsForm {
     formBuilder = inject(FormBuilder);
-    private storage = inject(UserBenefitsStorage);
-    private _snackbar = inject(MatSnackBar);
-
-    private readonly savedBenefits = toSignal(this.storage.getData(), { initialValue: null });
 
     benefits = input<CardBenefits | null>();
+    savedBenefits = input<UserBenefits | null>();
+    isLoggedIn = input<boolean>(false);
+
+    save = output<UserBenefits>();
 
     protected monthTabs: Tab[] = [];
     protected selectedMonthTab = 0;
@@ -117,16 +113,15 @@ export class BenefitsForm {
             const form = this.benefitsForm();
             const subscription = form.valueChanges
                 .pipe(
-                    debounceTime(500), // Wait 500ms after last keystroke
-                    distinctUntilChanged(), // Only save if values actually changed
+                    debounceTime(500),
+                    distinctUntilChanged(),
                 )
                 .subscribe(() => {
                     if (form.invalid) {
                         return;
                     }
 
-                    this.saveToLocalStorage();
-                    this._snackbar.open('Saved', 'Close', { duration: 3000 });
+                    this.emitSave();
                 });
 
             onCleanup(() => {
@@ -140,10 +135,22 @@ export class BenefitsForm {
             const savedBenefits = this.savedBenefits();
 
             if (!benefits || !savedBenefits) {
+                if (!savedBenefits) {
+                    form.reset(undefined, { emitEvent: false });
+                }
                 return;
             }
 
-            this.patchFormFromLocalStorage(form, savedBenefits);
+            this.patchFormFromStorage(form, savedBenefits);
+        });
+
+        effect(() => {
+            const form = this.benefitsForm();
+            if (this.isLoggedIn()) {
+                form.enable({ emitEvent: false });
+            } else {
+                form.disable({ emitEvent: false });
+            }
         });
     }
 
@@ -199,7 +206,7 @@ export class BenefitsForm {
         return monthlyBenefits ? (monthlyBenefits.at(index) as FormControl) : null;
     }
 
-    private saveToLocalStorage(): void {
+    private emitSave(): void {
         const formValue = this.benefitsForm().getRawValue();
         const currentYear = new Date().getFullYear().toString();
         const now = new Date().toISOString();
@@ -210,7 +217,7 @@ export class BenefitsForm {
             monthly: this.transformMonthlyBenefits(formValue.monthlyBenefits, now),
         };
 
-        this.storage.saveData(userBenefits);
+        this.save.emit(userBenefits);
     }
 
     private transformYearlyBenefits(yearlyData: any, timestamp: string): YearlyBenefit[] {
@@ -269,7 +276,7 @@ export class BenefitsForm {
         return results;
     }
 
-    private patchFormFromLocalStorage(form: FormGroup, savedBenefits: UserBenefits): void {
+    private patchFormFromStorage(form: FormGroup, savedBenefits: UserBenefits): void {
         const yearlyForm = form.get('yearlyBenefits') as FormGroup;
         const monthlyForm = form.get('monthlyBenefits') as FormArray;
 

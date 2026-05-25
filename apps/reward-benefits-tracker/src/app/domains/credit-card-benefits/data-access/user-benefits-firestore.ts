@@ -1,64 +1,63 @@
-import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { doc, getFirestore, onSnapshot, setDoc } from 'firebase/firestore';
-import { map, Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import type { DocumentData, DocumentReference } from 'firebase/firestore';
+import { GoogleAuthService } from 'libs/shared/auth/src/lib/google-auth.service';
+import { from, map, Observable, of, switchMap, take } from 'rxjs';
 import { UserBenefits } from '../models/user/user-benefits';
 import { computeTotalBenefitsRedeemedYTD, UserBenefitsStorage } from './user-benefits-storage';
 
-const firebaseConfig = {
-    apiKey: 'AIzaSyDULaGuVZLfOxnKYwhPiF9yJ29INtyWu8Q',
-    authDomain: 'rewardstracker-e67f1.firebaseapp.com',
-    projectId: 'rewardstracker-e67f1',
-    storageBucket: 'rewardstracker-e67f1.firebasestorage.app',
-    messagingSenderId: '657152882417',
-    appId: '1:657152882417:web:d6446a9c5ba80011eb5b50',
-    measurementId: 'G-5FPSZM98ER',
-};
-
 // Single-user mode: store data in one shared document.
 // When auth is added later, switch docRef to users/{uid}/benefits/{year}.
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserBenefitsFirestore extends UserBenefitsStorage {
     private readonly currentYear = new Date().getFullYear().toString();
+    private firestore = inject(Firestore, { optional: true});
+    private authService = inject(GoogleAuthService);
 
-    private get docRef() {
-        return doc(db, 'benefits', this.currentYear);
+    private docRef$(): Observable<DocumentReference<DocumentData>> {
+        if (!this.firestore) {
+            throw new Error('Firestore is not initialized. Please configure Firestore to use UserBenefitsFirestore.');
+        }
+
+        return this.authService.getCurrentUser().pipe(
+            take(1),
+            switchMap((user) => {
+                if (!user) {
+                    throw new Error('User is not authenticated. Please log in to use UserBenefitsFirestore.');
+                }
+                return of(doc(this.firestore!, 'users', user.uid, 'benefits', this.currentYear) as DocumentReference<DocumentData>);
+            }),
+        );
     }
 
     isConfigured(): boolean {
-        return firebaseConfig.apiKey.trim() !== '' && firebaseConfig.projectId.trim() !== '';
+        return !!this.firestore;
     }
 
+    /* obsolete: use saveDataAsync */
     saveData(data: UserBenefits): void {
-        this.saveDataAsync(data).catch((error) => {
-            console.error('Failed to save benefits to Firestore:', error);
+        this.saveDataAsync(data).subscribe({
+            next: () => {},
+            error: (error) => console.error('Failed to save benefits to Firestore:', error),
         });
     }
 
-    async saveDataAsync(data: UserBenefits): Promise<void> {
-        await setDoc(this.docRef, data);
+    saveDataAsync(data: UserBenefits): Observable<void> {
+        return this.docRef$().pipe(
+            take(1),
+            switchMap((ref) => from(setDoc(ref, data))),
+        );
     }
 
     getData(): Observable<UserBenefits | null> {
-        return new Observable<UserBenefits | null>((subscriber) => {
-            const unsubscribe = onSnapshot(
-                this.docRef,
-                (snapshot) => {
-                    subscriber.next(snapshot.exists() ? (snapshot.data() as UserBenefits) : null);
-                },
-                (error) => {
-                    console.error('Error reading benefits from Firestore:', error);
-                    subscriber.error(error);
-                },
-            );
-            return unsubscribe;
-        });
+        return this.docRef$().pipe(
+            take(1),
+            switchMap((ref) => from(getDoc(ref))),
+            map((snapshot) => (snapshot.exists() ? (snapshot.data() as UserBenefits) : null)),
+        );
     }
 
     getTotalBenefitsRedeemedYTD(): Observable<number> {

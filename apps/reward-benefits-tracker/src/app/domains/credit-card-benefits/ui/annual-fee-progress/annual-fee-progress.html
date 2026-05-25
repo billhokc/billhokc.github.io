@@ -1,0 +1,10 @@
+<div class="annual-fee-progress">
+    <mat-progress-bar
+        mode="determinate"
+        [value]="progressValue()"
+    ></mat-progress-bar>
+    <div class="annual-fee-labels">
+        <span>{{ benefitsRedeemedYTD() | currency }} redeemed</span>
+        <span>{{ annualFee() | currency }} annual fee</span>
+    </div>
+</div>
