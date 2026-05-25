@@ -1,6 +1,6 @@
-import { MonthlyAmountUsed } from './monthly-amount-used';
+import { BenefitUsage } from './benefit-usage';
 
 export interface MonthlyBenefit {
-  month: string;
-  amountUsed: MonthlyAmountUsed[];
+    month: string;
+    amountUsed: BenefitUsage[];
 }

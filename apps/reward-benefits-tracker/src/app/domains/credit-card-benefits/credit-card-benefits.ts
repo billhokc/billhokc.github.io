@@ -4,7 +4,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { GoogleAuthService } from '@billhokc/auth';
 import { of, switchMap } from 'rxjs';
 import { BenefitsApi } from './data-access/benefits-api';
-import { UserBenefitsStorage } from './data-access/user-benefits-storage';
+import { computeTotalBenefitsRedeemedYTD, UserBenefitsStorage } from './data-access/user-benefits-storage';
 import { UserBenefits } from './models/user/user-benefits';
 import { AnnualFeeProgress } from './ui/annual-fee-progress/annual-fee-progress';
 import { BenefitsForm } from './ui/benefits-form/benefits-form';
@@ -37,11 +37,8 @@ export class CreditCardBenefits {
         ),
         { initialValue: null },
     );
-    protected readonly benefitsRedeemedYTD = toSignal(
-        this._authService.user$.pipe(
-            switchMap((user) => user ? this.userBenefitsStorage.getTotalBenefitsRedeemedYTD() : of(0)),
-        ),
-        { initialValue: 0 },
+    protected readonly benefitsRedeemedYTD = computed(() =>
+        computeTotalBenefitsRedeemedYTD(this.savedBenefits(), this.creditCardBenefits()),
     );
 
     protected creditCards = toSignal(this._benefitsApi.getCreditCards(), { initialValue: [] });

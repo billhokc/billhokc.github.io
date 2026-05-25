@@ -59,6 +59,6 @@ export class UserBenefitsFirestore extends UserBenefitsStorage {
     }
 
     getTotalBenefitsRedeemedYTD(): Observable<number> {
-        return this.getData().pipe(map(computeTotalBenefitsRedeemedYTD));
+        return this.getData().pipe(map((data) => computeTotalBenefitsRedeemedYTD(data)));
     }
 }

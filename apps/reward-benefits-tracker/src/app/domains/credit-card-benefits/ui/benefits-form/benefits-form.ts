@@ -18,10 +18,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { CardBenefitFrequency } from '../../models/card-benefit-frequency';
 import { CardBenefits } from '../../models/card-benefits';
 import { Tab } from '../../models/tab';
-import { MonthlyAmountUsed } from '../../models/user/monthly-amount-used';
+import { BenefitUsage } from '../../models/user/benefit-usage';
 import { MonthlyBenefit } from '../../models/user/monthly-benefit';
 import { UserBenefits } from '../../models/user/user-benefits';
-import { YearlyBenefit } from '../../models/user/yearly-benefit';
 
 @Component({
     selector: 'app-benefits-form',
@@ -233,9 +232,9 @@ export class BenefitsForm {
         this.save.emit(userBenefits);
     }
 
-    private transformYearlyBenefits(yearlyData: any, timestamp: string): YearlyBenefit[] {
+    private transformYearlyBenefits(yearlyData: any, timestamp: string): BenefitUsage[] {
         const yearlyBenefits = this.yearlyBenefits();
-        const results: YearlyBenefit[] = [];
+        const results: BenefitUsage[] = [];
 
         for (const benefit of yearlyBenefits) {
             const benefitData = yearlyData[benefit.id];
@@ -244,6 +243,7 @@ export class BenefitsForm {
                     providerId: benefit.provider.id,
                     benefitId: benefit.id,
                     amounts: benefitData.amountInputs.map((value: any) => parseFloat(value) || 0),
+                    vendorMarkup: benefit.vendorMarkup,
                     createdDate: timestamp,
                     modifiedDate: timestamp,
                 });
@@ -258,7 +258,7 @@ export class BenefitsForm {
         const results: MonthlyBenefit[] = [];
 
         monthlyData.forEach((monthData, monthIndex) => {
-            const amountUsedForMonth: MonthlyAmountUsed[] = [];
+            const amountUsedForMonth: BenefitUsage[] = [];
 
             for (const benefit of monthlyBenefits) {
                 const benefitData = monthData[benefit.id];
@@ -269,6 +269,7 @@ export class BenefitsForm {
                         amounts: benefitData.amountInputs.map(
                             (value: any) => parseFloat(value) || 0,
                         ),
+                        vendorMarkup: benefit.vendorMarkup,
                         createdDate: timestamp,
                         modifiedDate: timestamp,
                     });

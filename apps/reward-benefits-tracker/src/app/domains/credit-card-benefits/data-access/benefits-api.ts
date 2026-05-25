@@ -49,6 +49,7 @@ export class BenefitsApi {
                         amount: 10,
                         frequency: CardBenefitFrequency.Monthly,
                         frequencyCount: 2,
+                        vendorMarkup: 0.4,
                     },
                     {
                         id: 2,

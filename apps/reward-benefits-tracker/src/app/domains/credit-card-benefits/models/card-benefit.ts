@@ -10,4 +10,5 @@ export interface CardBenefit {
     frequency: CardBenefitFrequency;
     frequencyCount: number;
     splitByCalendarPeriod?: boolean | undefined;
+    vendorMarkup?: number | undefined;
 }

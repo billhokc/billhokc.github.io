@@ -1,8 +1,8 @@
+import { BenefitUsage } from './benefit-usage';
 import { MonthlyBenefit } from './monthly-benefit';
-import { YearlyBenefit } from './yearly-benefit';
 
 export interface UserBenefits {
     year: string;
-    yearly: YearlyBenefit[];
+    yearly: BenefitUsage[];
     monthly: MonthlyBenefit[];
 }
