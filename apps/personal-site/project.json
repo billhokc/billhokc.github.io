@@ -19,7 +19,8 @@
           {
             "glob": "**/*",
             "input": "apps/personal-site/public"
-          }
+          },
+          "apps/personal-site/src/404.html"
         ],
         "styles": ["apps/personal-site/src/app/shared/styles/styles.scss"],
         "stylePreprocessorOptions": {

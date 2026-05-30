@@ -13,6 +13,22 @@
     />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script type="text/javascript">
+      // Handle 404 Redirect for SPA routing on Github Pages
+      (function(l) {
+        if (l.search[1] === 'p') {
+          var pairs = l.search.slice(1).split('&');
+          var q = {};
+          pairs.forEach(function(pair) {
+            var keyVal = pair.split('=');
+            q[keyVal[0]] = keyVal.slice(1).join('=');
+          });
+          if (q.p !== undefined) {
+            window.history.replaceState(null, null, l.pathname.slice(0, -1) + (q.p ? '/' + q.p.replace(/~and~/g, '&') : '') + (q.q ? '?' + q.q.replace(/~and~/g, '&') : '') + l.hash);
+          }
+        }
+      }(window.location));
+    </script>
   </head>
   <body>
     <app-root></app-root>
