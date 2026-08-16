@@ -4,7 +4,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { GoogleAuthService } from '@billhokc/auth';
 import { of, switchMap } from 'rxjs';
 import { BenefitsApi } from './data-access/benefits-api';
-import { computeTotalBenefitsRedeemedYTD, UserBenefitsStorage } from './data-access/user-benefits-storage';
+import { computeTotalBenefitsRedeemedYTD } from './util/benefit-calculation';
+import { USER_BENEFITS_FIRESTORE } from './data-access/user-benefits-firestore.interface'
 import { UserBenefits } from './models/user/user-benefits';
 import { AnnualFeeProgress } from './ui/annual-fee-progress/annual-fee-progress';
 import { BenefitsForm } from './ui/benefits-form/benefits-form';
@@ -17,7 +18,7 @@ import { BenefitsForm } from './ui/benefits-form/benefits-form';
 })
 export class CreditCardBenefits {
     private _benefitsApi = inject(BenefitsApi);
-    private userBenefitsStorage = inject(UserBenefitsStorage);
+    private userBenefitsStorage = inject(USER_BENEFITS_FIRESTORE);
     private _authService = inject(GoogleAuthService);
     private _snackbar = inject(MatSnackBar);
 
@@ -57,7 +58,10 @@ export class CreditCardBenefits {
     );
 
     protected onSave(userBenefits: UserBenefits): void {
-        this.userBenefitsStorage.saveData(userBenefits);
-        this._snackbar.open('Saved', 'Close', { duration: 3000 });
+        // todo: create a local state and save to that on success.  have the benefitsYTD react off of that local state
+        this.userBenefitsStorage.saveData(userBenefits).subscribe({
+            next: () => this._snackbar.open('Saved', 'Close', { duration: 3000 }),
+            error: () => this._snackbar.open('Error while saving', 'Close', { duration: 3000 })
+        });
     }
 }

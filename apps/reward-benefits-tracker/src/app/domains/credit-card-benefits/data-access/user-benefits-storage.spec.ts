@@ -1,5 +1,5 @@
 import { UserBenefits } from '../models/user/user-benefits';
-import { computeTotalBenefitsRedeemedYTD } from './user-benefits-storage';
+import { computeTotalBenefitsRedeemedYTD } from '../util/benefit-calculation';
 
 // NOTE: If redeemed totals appear unchanged after adding vendorMarkup support,
 // the cause is stale data in localStorage that was saved before vendorMarkup was
