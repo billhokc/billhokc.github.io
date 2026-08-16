@@ -59,6 +59,7 @@ export class BenefitsApi {
                         amount: 5,
                         frequency: CardBenefitFrequency.Monthly,
                         frequencyCount: 1,
+                        vendorMarkup: null
                     },
                     {
                         id: 3,
@@ -68,6 +69,7 @@ export class BenefitsApi {
                         amount: 10,
                         frequency: CardBenefitFrequency.Monthly,
                         frequencyCount: 1,
+                        vendorMarkup: null
                     },
                     {
                         id: 4,
@@ -78,6 +80,7 @@ export class BenefitsApi {
                         frequency: CardBenefitFrequency.Yearly,
                         frequencyCount: 2,
                         splitByCalendarPeriod: true,
+                        vendorMarkup: null
                     },
                     {
                         id: 5,
@@ -88,6 +91,7 @@ export class BenefitsApi {
                         frequency: CardBenefitFrequency.Yearly,
                         frequencyCount: 2,
                         splitByCalendarPeriod: true,
+                        vendorMarkup: null
                     },
                     {
                         id: 6,
@@ -97,6 +101,7 @@ export class BenefitsApi {
                         amount: 250,
                         frequency: CardBenefitFrequency.Yearly,
                         frequencyCount: 1,
+                        vendorMarkup: null
                     },
                     {
                         id: 7,
@@ -107,6 +112,7 @@ export class BenefitsApi {
                         frequency: CardBenefitFrequency.Yearly,
                         frequencyCount: 2,
                         splitByCalendarPeriod: false,
+                        vendorMarkup: null
                     },
                     {
                         id: 8,
@@ -116,6 +122,7 @@ export class BenefitsApi {
                         amount: 300,
                         frequency: CardBenefitFrequency.Yearly,
                         frequencyCount: 1,
+                        vendorMarkup: null
                     },
                     {
                         id: 9,
@@ -125,6 +132,7 @@ export class BenefitsApi {
                         amount: 156,
                         frequency: CardBenefitFrequency.Yearly,
                         frequencyCount: 1,
+                        vendorMarkup: null
                     },
                 ],
             };

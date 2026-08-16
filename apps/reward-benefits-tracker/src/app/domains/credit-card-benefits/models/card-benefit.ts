@@ -9,6 +9,6 @@ export interface CardBenefit {
     amount: number;
     frequency: CardBenefitFrequency;
     frequencyCount: number;
-    splitByCalendarPeriod?: boolean | undefined;
-    vendorMarkup?: number | undefined;
+    splitByCalendarPeriod?: boolean | null;
+    vendorMarkup: number | null;
 }

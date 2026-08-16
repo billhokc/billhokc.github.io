@@ -4,13 +4,13 @@ import type { DocumentData, DocumentReference } from 'firebase/firestore';
 import { GoogleAuthService } from 'libs/shared/auth/src/lib/google-auth.service';
 import { from, map, Observable, of, switchMap, take } from 'rxjs';
 import { UserBenefits } from '../models/user/user-benefits';
-import { computeTotalBenefitsRedeemedYTD, UserBenefitsStorage } from './user-benefits-storage';
+import { computeTotalBenefitsRedeemedYTD } from '../util/benefit-calculation';
 
 // Single-user mode: store data in one shared document.
 // When auth is added later, switch docRef to users/{uid}/benefits/{year}.
 
 @Injectable()
-export class UserBenefitsFirestore extends UserBenefitsStorage {
+export class UserBenefitsFirestoreService {
     private readonly currentYear = new Date().getFullYear().toString();
     private firestore = inject(Firestore, { optional: true});
     private authService = inject(GoogleAuthService);
@@ -35,15 +35,7 @@ export class UserBenefitsFirestore extends UserBenefitsStorage {
         return !!this.firestore;
     }
 
-    /* obsolete: use saveDataAsync */
-    saveData(data: UserBenefits): void {
-        this.saveDataAsync(data).subscribe({
-            next: () => {},
-            error: (error) => console.error('Failed to save benefits to Firestore:', error),
-        });
-    }
-
-    saveDataAsync(data: UserBenefits): Observable<void> {
+    saveData(data: UserBenefits): Observable<void> {
         return this.docRef$().pipe(
             take(1),
             switchMap((ref) => from(setDoc(ref, data))),
