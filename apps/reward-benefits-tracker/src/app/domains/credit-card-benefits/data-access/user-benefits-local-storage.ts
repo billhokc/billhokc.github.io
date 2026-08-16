@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { UserBenefits } from '../models/user/user-benefits';
-import { computeTotalBenefitsRedeemedYTD, UserBenefitsStorage } from './user-benefits-storage';
+import { UserBenefitsStorage } from './user-benefits-storage';
+import { computeTotalBenefitsRedeemedYTD } from '../util/benefit-calculation';
 
 @Injectable({
     providedIn: 'root',
